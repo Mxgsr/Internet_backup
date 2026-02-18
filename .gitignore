@@ -9,9 +9,6 @@ venv/
 __pycache__/
 *.pyc
 
-# Archivos de respaldo
-transcribe.py
-
 # Archivos de sistema de macOS
 .DS_Store
 .AppleDouble

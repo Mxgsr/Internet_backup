@@ -41,7 +41,7 @@ def ejecutar():
     ruta_base = Path(ruta_str).expanduser()
     
     # --- PRUEBA DEL EXTRACTOR ---
-    archivo_lista = Path('lista.txt')
+    archivo_lista = Path('links.txt')
     if not archivo_lista.exists():
         logging.warning(f"No se encontró el archivo {archivo_lista}.")
         return

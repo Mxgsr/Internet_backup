@@ -14,6 +14,8 @@ def descargar_video(url: str, carpeta_base: Path) -> bool:
 
     # Configuramos las reglas del motor yt-dlp
     opciones = {
+        # Ruta al archivo de cookies para Tidal
+        'cookiefile': 'Creds/tidal.json',
         # Guardamos organizando por plataforma (ej. Tidal) y luego el título
         'outtmpl': str(carpeta_base / '%(extractor_key)s' / '%(title)s.%(ext)s'),
         'format': 'bestaudio/best',  # Como tienes links de Tidal, priorizamos audio
