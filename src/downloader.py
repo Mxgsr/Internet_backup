@@ -17,6 +17,7 @@ def descargar_video(url: str, carpeta_base: Path) -> bool:
         # Guardamos organizando por plataforma (ej. Tidal) y luego el título
         'outtmpl': str(carpeta_base / '%(extractor_key)s' / '%(title)s.%(ext)s'),
         'format': 'bestaudio/best',  # Como tienes links de Tidal, priorizamos audio
+        'merge_output_format' : 'mkv',
         'download_archive': str(archivo_historial),
         'quiet': True,
         'no_warnings': True,
