@@ -1,12 +1,24 @@
 # src/config.py
+import os
+from dotenv import load_dotenv
 from pathlib import Path
+from typing import Any
+
+load_dotenv()
+ROOT_DIR = Path(__file__).resolve().parent.parent
+_base_dir_env = os.getenv("BASE_DIR")
+
+if _base_dir_env:
+    BASE_DIR = Path(_base_dir_env).expanduser()
+else:
+    BASE_DIR = ROOT_DIR / "Descargas"
 
 # --- CONFIGURACIÓN DE LOGS ---
 # Define la carpeta donde se guardarán los archivos de registro.
-CARPETA_LOGS = Path('logs')
+CARPETA_LOGS = ROOT_DIR / 'logs'
 
 # Define el nombre del archivo de registro.
-ARCHIVO_LOG = CARPETA_LOGS / "backup.log"
+ARCHIVO_LOG = CARPETA_LOGS / ".backup.log"
 
 # Define el nivel de registro (DEBUG, INFO, WARNING, ERROR, CRITICAL).
 NIVEL_LOG = "INFO"
@@ -20,7 +32,7 @@ CODIFICACION_LOG = 'utf-8'
 
 # --- CONFIGURACIÓN DE ARCHIVOS ---
 # Define el nombre del archivo que contiene las URLs a descargar.
-ARCHIVO_URLS = Path('links.txt')
+ARCHIVO_URLS = ROOT_DIR / 'links.txt'
 
 # Define el nombre del archivo que almacena el historial de descargas.
 # Este archivo ayuda a evitar que se descarguen los mismos videos multiples veces.
@@ -31,7 +43,7 @@ ARCHIVO_HISTORIAL_DESCARGAS = ".downloaded.txt"
 # Opciones para la librería yt-dlp.
 # Puedes encontrar más opciones en la documentación de yt-dlp:
 # https://github.com/yt-dlp/yt-dlp#usage-and-options
-OPCIONES_YT_DLP = {
+OPCIONES_YT_DLP: dict[str, Any] = {
     # Define la plantilla para nombrar los archivos descargados.
     # Se guardarán en una carpeta con el nombre de la plataforma (ej. Youtube)
     # y el nombre del video.

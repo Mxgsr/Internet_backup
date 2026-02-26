@@ -1,15 +1,10 @@
 import sys
 print(f"--- Ejecutando desde: {sys.executable} ---")
-import os
 import logging
-from pathlib import Path
-from dotenv import load_dotenv
 from src.downloader import descargar_video
 from src.extractor import obtener_urls_desde_archivo
 from src import config
 
-# Carga las variables de entorno desde un archivo .env
-load_dotenv()
 
 def configurar_sistema_de_logs():
     """
@@ -42,15 +37,8 @@ def procesar_descargas():
     configurar_sistema_de_logs()
     logging.info("Iniciando el sistema de backup...")
 
-    # Leemos la ruta base de descargas desde el archivo .env
-    ruta_str = os.getenv("BASE_DIR")
-    
-    if not ruta_str:
-        logging.error("La variable de entorno BASE_DIR no está definida en el archivo .env")
-        return
-
     # Convertimos la ruta a un objeto Path para un manejo más robusto.
-    ruta_base = Path(ruta_str).expanduser()
+    ruta_base = config.BASE_DIR
     
     # --- LÓGICA DE OBTENCIÓN DE URLS ---
     urls_a_procesar = []

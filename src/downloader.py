@@ -2,6 +2,8 @@
 import yt_dlp
 import logging
 from pathlib import Path
+from typing import Any, cast
+from yt_dlp.utils import DownloadError
 from src import config
 
 def descargar_video(url: str, carpeta_base: Path) -> bool:
@@ -28,21 +30,20 @@ def descargar_video(url: str, carpeta_base: Path) -> bool:
     opciones = config.OPCIONES_YT_DLP.copy()
     
     # Actualizamos las rutas en las opciones para que sean absolutas.
-    opciones['outtmpl'] = str(carpeta_base / opciones['outtmpl'])
+    opciones['outtmpl'] = str(carpeta_base / opciones.get('outtmpl', '%(title)s.%(ext)s'))
     opciones['download_archive'] = str(archivo_historial)
 
     try:
         logging.info(f"Procesando URL: {url}")
         
         # Usamos 'with' para asegurarnos de que los recursos de yt-dlp se liberen.
-        with yt_dlp.YoutubeDL(opciones) as ydl:
-            ydl.download([url])
-            
+        with yt_dlp.YoutubeDL(cast(Any, opciones)) as ydl:
+            ydl.download([url])            
         logging.info(f"Procesamiento finalizado para: {url}")
         return True
 
     # Capturamos errores específicos de la descarga (ej: video no disponible).
-    except yt_dlp.utils.DownloadError as e:
+    except DownloadError as e:
         logging.error(f"No se pudo descargar '{url}'. Razón: {e}")
         return False
         
